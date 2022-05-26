@@ -1,13 +1,14 @@
 const express = require("express"),
   app = express(),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  userRoutes = require('./routes/userRoutes');
 
 require("dotenv")
   .config();
 
 //Connect to database
 try {
-    mongoose.connect("mongodb://localhost:27017/usersdb", {
+    mongoose.connect("mongodb+srv://lamolienda:lamolienda2022@lamoliendabakery.fgimn.mongodb.net/?retryWrites=true&w=majority", {
       useUnifiedTopology: true,
       useNewUrlParser: true
     });
@@ -25,6 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+
+//using user route
+app.use(userRoutes);
 
 //setup server to listen on port 3030
 app.listen(process.env.PORT || 3030, () => {
