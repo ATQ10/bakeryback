@@ -1,7 +1,6 @@
 const express = require("express"),
   app = express(),
-  mongoose = require('mongoose'),
-  userRoutes = require('./routes/userRoutes');
+  mongoose = require('mongoose');
 
 require("dotenv")
   .config();
@@ -27,8 +26,9 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-//using user route
-app.use(userRoutes);
+//Router
+var router = require('./routes')
+app.use('/api', router)
 
 //setup server to listen on port 3030
 app.listen(process.env.PORT || 3030, () => {

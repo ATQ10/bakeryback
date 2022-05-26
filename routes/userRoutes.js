@@ -6,6 +6,10 @@ const express = require('express'),
     } = require('../controllers/authController');
 const upload = require('../middlewares/uploadMiddleware');
 
+    router.get('/', function (req, res) {
+      res.status(200).json({ message: 'Estás en usuarios' })
+    })
+
     router.post('/register',upload.single('image') ,signup, (req, res)=>{
 
     });

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+ Schema = mongoose.Schema;
 
 const deliveriesSchema = new Schema({
   Local:{
@@ -16,9 +16,8 @@ const deliveriesSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'Product'
       },
-      product: {
-        type: Schema.Types.ObjectId, 
-        ref: 'Product'
+      Amount: {
+        type: Number
       },
     },
   ],
