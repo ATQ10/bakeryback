@@ -7,7 +7,7 @@ require("dotenv")
 
 //Connect to database
 try {
-    mongoose.connect("mongodb+srv://lamolienda:lamolienda2022@lamoliendabakery.fgimn.mongodb.net/?retryWrites=true&w=majority", {
+    mongoose.connect(process.env.DB, {
       useUnifiedTopology: true,
       useNewUrlParser: true
     });
@@ -25,6 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+
+app.use('/public', express.static(`${__dirname}/storage/imgs`))
 
 //Router
 var router = require('./routes')

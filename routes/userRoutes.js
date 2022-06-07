@@ -4,15 +4,13 @@ const express = require('express'),
         signup,
         signin
     } = require('../controllers/authController');
-const upload = require('../middlewares/uploadMiddleware');
+const upload = require('../helpers/storageHelper');
 
     router.get('/', function (req, res) {
       res.status(200).json({ message: 'Estás en usuarios' })
     })
 
-    router.post('/register',upload.single('image') ,signup, (req, res)=>{
-
-    });
+    router.post('/register',upload.single('image'),signup)
 
     router.post('/login', signin, (req, res)=>{
 

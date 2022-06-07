@@ -1,11 +1,9 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+  
+const {appConfig} = require('../config');
 
 const userSchema = new Schema({
-    userImage:{
-        type: String,
-        required: [true,"An user image is required!"]
-    },
     userName:{
       type: String,
       required:[true, "A username is required!"]
@@ -48,7 +46,15 @@ const userSchema = new Schema({
       plant:{
         type: Schema.Types.ObjectId, 
         ref: 'Plant' 
+      },
+      imgUrl:{
+        type:String
       }
 });
+
+userSchema.methods.setImgUrl = function setImgUrl(filename){
+  const { host, port} = appConfig;
+  this.imgUrl = `${host}:${port}/public/${filename}`;
+}
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const fs = require('fs')
+const { promisify } = require('util')
 
-exports.signup = (req, res) => {
-    const ImgBytes = req.body.imgBytes;
+const unlinkAsync = promisify(fs.unlink)
 
-    //here make the helper to store the image file
-
+exports.signup = async (req, res) => {
     const user = new User({
       userName: req.body.username,
       fullName: req.body.fullName,
@@ -16,14 +16,23 @@ exports.signup = (req, res) => {
       position: req.body.position,
       plant: req.body.plant
     });
-  
-    user.save((err, user) => {
+
+    if(req.file){
+      const {filename} = req.file
+      user.setImgUrl(filename)
+    }else{
+      user.setImgUrl('avatar.png')
+    }
+
+    user.save(async (err, user) => {
       if (err) {
-        res.status(500)
-          .send({
-            message: err
-          });
-        return;
+         // Delete the file like normal
+          await unlinkAsync(req.file.path)
+          res.status(500)
+            .send({
+              message: err
+            });
+          return;
       } else {
         res.status(200)
           .send({
