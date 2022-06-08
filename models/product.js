@@ -4,26 +4,23 @@ const mongoose = require('mongoose'),
 const productSchema = new Schema({
   Name: {
     type: String,
-    required: [true, "Name not provided!"],
+    required: [true, "Name not provided!"]
   },
   Img:{
       type: String,
       required: [true,"An product image is required!"]
   },
-  Desc:{
-      type: Number,
-  },
-  Plant:{
-    type: Schema.Types.ObjectId, 
-    ref: 'Plant' 
+  Description:{
+    type: String
   },
   Price: {
-    mayoreo: {
-      type: Number,
-    },
-    menudeo: {
-      type: Number,
-    },
+    type: Number
+  },
+  Ingredients: {
+    type: String
+  },
+  Origin: {
+    type: String
   },
   created: {
     type: Date,

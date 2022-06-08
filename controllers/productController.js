@@ -62,7 +62,7 @@ module.exports = {
               message: 'Error actualizando producto'
             })
           }
-          return res.json(product);
+          return res.json(newProduct);
       })
   },
 }

@@ -12,6 +12,7 @@ router.post('/create', function(req, res){
 
 router.delete('/:id', function(req, res){
     productController.remove(req,res)
+    console.log("/delete");
 })
 
 router.put('/:id', function(req, res){
