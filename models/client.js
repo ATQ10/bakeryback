@@ -1,10 +1,12 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+const {appConfig} = require('../config');
+
 const clientSchema = new Schema({
-  logo:{
+  logoUrl:{
     type: String,
-    required: [true,"An user image is required!"]
+    required: [true,"An Client image is required!"]
   },
   fullName: {
     type: String,
@@ -35,5 +37,10 @@ const clientSchema = new Schema({
     default: Date.now
   }
 });
+
+clientSchema.methods.setImgUrl = function setImgUrl(filename){
+  const { host, port } = appConfig;
+  this.logoUrl = `${host}:${port}/public/${filename}`;
+}
 
 module.exports = mongoose.model('Client', clientSchema);

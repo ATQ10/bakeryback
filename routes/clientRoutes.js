@@ -1,14 +1,12 @@
 const router = require('express').Router()
-const clientController = require('../controllers/clientController')
+const clientController = require('../controllers/clientController');
+const upload = require('../helpers/storageHelper');
 
 router.get('/', function (req, res) {
     res.status(200).json({ message: 'Estás en Clientes' })
   })
 
-router.post('/create', function(req, res){
-    clientController.create(req,res)
-    console.log("/create");
-})
+router.post('/create', upload.single('logo') , clientController.create);
 
 router.delete('/:id', function(req, res){
     clientController.remove(req,res)

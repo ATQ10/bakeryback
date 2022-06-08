@@ -1,16 +1,44 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Client = require('../models/client');
+const fs = require('fs')
+const { promisify } = require('util')
+
+const unlinkAsync = promisify(fs.unlink) 
 
 module.exports = {
-  create: function (req, res) {
+  create: async (req, res)=> {
     try {
-        var newClient = new Client(req.body)
-        newClient.save(function (err,client) {
+        let newClient = new Client({
+          fullName: req.body.fullname,
+          email: req.body.email,
+          preferences: req.body.prefs,
+          Address: req.body.addr,
+        })
+
+        if(req.file){
+          const {filename} = req.file
+          newClient.setImgUrl(filename)
+        }else{
+          newClient.setImgUrl('avatar.png')
+        }
+        newClient.save(async (err,client)=>{
+          if (err) {
+            // Delete the file like normal
+            if(req.file){
+             await unlinkAsync(req.file.path)
+            }
+             res.status(500)
+               .send({
+                 message: err
+               });
+             return;
+          }else{
             return res.status(200).json({
-                message: 'Cliente registrado',
-                _id: client._id
+              message: 'Cliente registrado',
+              _id: client._id
             })
+          }
         })
     } catch (error) {
         console.log(error)
@@ -20,11 +48,11 @@ module.exports = {
       var id = req.params.id
       Client.findByIdAndRemove(id, function(err, client){
           if(err){
-              return res.json(500, {
+              return res.status(500).json({
                   message: 'No existe cliente'
                 })
           }
-          return res.json(client)
+          return res.status(200).json(client)
       })
   },
   getByID: function (req, res) {
