@@ -9,7 +9,7 @@ module.exports = {
         newProduct.save(function (err,product) {
             return res.status(200).json({
                 message: 'Producto registrado',
-                _id: product._id
+                _id: product.id
             })
         })
     } catch (error) {
